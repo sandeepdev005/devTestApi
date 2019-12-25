@@ -45,14 +45,15 @@ app.use((req, res, next) => {
 //---------------------------------------DB Connection------------------------------
 //System ip address http://192.168.0.28:8000/
 //connect with the database(Localhost)
-mongoose.connect("mongodb://localhost:27017/todolistDB", {
-  useNewUrlParser: true, useUnifiedTopology: true,
-});
 
-//connected to real time server
-// mongoose.connect("mongodb+srv://admin-sandeep:" + process.env.MONGO_ATALS_PASSWORD + "@cluster0-mgb16.mongodb.net/todolistDB", {
-//   useNewUrlParser: true, useUnifiedTopology: true
+// mongoose.connect("mongodb://localhost:27017/todolistDB", {
+//   useNewUrlParser: true, useUnifiedTopology: true,
 // });
+
+// connected to real time server
+mongoose.connect("mongodb+srv://admin-sandeep:" + process.env.MONGO_ATALS_PASSWORD + "@cluster0-mgb16.mongodb.net/todolistDB", {
+  useNewUrlParser: true, useUnifiedTopology: true
+});
 
 
 
