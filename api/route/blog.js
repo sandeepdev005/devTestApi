@@ -21,7 +21,6 @@ router.get("/all", (req, res, next) => {
             error: err
         })
     });
-
   
 });
 

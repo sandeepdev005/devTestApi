@@ -7,10 +7,11 @@ const morgan = require('morgan');
 const Media = require('./api/models/media');
 
 
+
 //-----------------------------------------Routes------------------------------------------
 const accountRoute = require('./api/route/account')
 const blogRoute = require('./api/route/blog');
-
+const uploadMedia = require('./api/route/uploadmedia');
 
 
 
@@ -26,7 +27,8 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 app.use('/account', accountRoute);
-app.use('/blog', blogRoute)
+app.use('/blog', blogRoute);
+app.use('/uploadMedia', uploadMedia)
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -51,77 +53,77 @@ app.use((req, res, next) => {
 // });
 
 // connected to real time server
-mongoose.connect("mongodb+srv://admin-sandeep:" + process.env.MONGO_ATALS_PASSWORD + "@cluster0-mgb16.mongodb.net/todolistDB", {
-  useNewUrlParser: true, useUnifiedTopology: true
-});
-
-
+mongoose.connect("mongodb+srv://admin-sandeep:Sand2@18@cluster0-mgb16.mongodb.net/todolistDB", {
+  useNewUrlParser: true
+}).then(() => console.log('Now connected to MongoDB!')).catch(err => console.error('Something went wrong in connecting in the MongoDB connection'));
 
 
 
 
 //---------------------------------------Few methods to working with the Imges ---------
 
-const storage = multer.diskStorage(
-  {
-    destination: function (req, file, callback) {
-      callback(null, './upload');
-    },
-    filename: function (req, file, callback) {
-      callback(null, new Date().toISOString() + file.originalname)
-    }
-  }
-);
+// const storage = multer.diskStorage(
+//   {
+//     destination: function (req, file, callback) {
+//       callback(null, './upload');
+//     },
+//     filename: function (req, file, callback) {
+//       callback(null, new Date().toISOString() + file.originalname)
+//     }
+//   }
+// );
 
-const fileFilter = (req, file, cb) => {
-  if (file.mimetype === 'image/png' || file.mimetype === 'image/jpeg' || file.mimetype==='image/gif'||
-   file.mimetype === 'video/mp4'
-  ) {
-    cb(null, true);
-  } else {
-    cb(null, false);
-  }
-}
-
-
-const upload = multer({
-  storage: storage, limits: {
-    fieldSize: 1024 * 1024 * 5
-  }
-  , fileFilter: fileFilter
-});
+// const fileFilter = (req, file, cb) => {
+//   if (file.mimetype === 'image/png' || file.mimetype === 'image/jpeg' || file.mimetype === 'image/gif' ||
+//     file.mimetype === 'video/mp4'
+//   ) {
+//     cb(null, true);
+//   } else {
+//     cb(null, false);
+//   }
+// }
 
 
-app.post("/media", upload.single('media'), (req, res, next) => {
+// const upload = multer({
+//   storage: storage, limits: {
+//     fieldSize: 1024 * 1024 * 5
+//   }
+//   , fileFilter: fileFilter
+// });
 
 
-  const media = new Media({
-    _id: mongoose.Types.ObjectId(),
-    mediaType: "req.file.mimetype",
-    mediaName: req.file.originalname,
-    path: req.file.path,
-    userId: req.body.userId,
-  });
+// app.post("/media", upload.single('media'), (req, res, next) => {
 
-  media.save().then(doc => {
+//   console.log(req.file);
+//   console.log(req.body.userId);
 
-    if(doc){
-      res.status(200).json(doc);
-    }else{
-      res.status(404).json({
-        message: "Image not uploaded."
-      });
-    }
+//   const media = new Media({
+//     _id: mongoose.Types.ObjectId(),
+//     mediaType: "req.file.mimetype",
+//     mediaName: req.file.originalname,
+//     path: req.file.path,
+//     userId: req.body.userId,
+//   });
 
-   
-  }).catch(err => {
-    res.status(500).json({
-      error: err
-    });
-  });
+//   media.save().then(doc => {
 
- 
-});
+//     if (doc) {
+//       res.status(200).json(doc);
+//     } else {
+//       res.status(404).json({
+//         message: "Image not uploaded."
+//       });
+//     }
+
+
+//   }).catch(err => {
+//     res.status(500).json({
+//       error: err
+//     });
+//   });
+
+
+// });
 
 
 
