@@ -13,8 +13,6 @@ router.post('/getOtp', function (req, res, next) {
 });
 
 router.post('/registerUser', async (req, res, next) => {
-
-
     try {
         const { error } = validateUser(req.body);
         if (error) {

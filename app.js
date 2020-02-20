@@ -144,6 +144,45 @@ app.get("/", function (req, res, next) {
   res.send("Successfully");
 });
 
+app.get("/setAlarm", function (req, res, next) {
+  res.status(200).json({
+    "action": {
+      "setalarm": {
+        "time": "10:00:00",
+        "text": "This is a txt"
+      }
+    },
+    result: "success",
+    status: "1"
+  });
+})
+
+app.get("/popUpNotification", function (req, res, next) {
+  res.status(200).json({
+    "action": {
+      "pop_notification": {
+        "heading": "This is a heading text",
+        "description": "This is a description txt"
+      }
+
+    }, result: "success",
+    status: "1"
+  });
+})
+
+app.get("/sendNotification", function (req, res, next) {
+  res.status(200).json({
+    "action": {
+      "send_notification": {
+        "heading": "This is a heading text",
+        "description": "This is a description txt"
+      }
+    },
+    result: "success",
+    status: "1"
+  });
+})
+
 
 app.listen(port, function (req, res) {
   console.log("server running successfully at port no " + port);
